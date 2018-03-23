@@ -127,8 +127,6 @@ int main(void)
 				UDPSend(mass,sizeof(mass));
 				WD_tick = HAL_GetTick();
 			}
-		
-
   }
   /* USER CODE END 3 */
 

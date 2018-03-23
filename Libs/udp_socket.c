@@ -56,7 +56,7 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port);
+static void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port);
 
 
 struct udp_pcb *UDPSock;
@@ -77,16 +77,13 @@ void UDPTransportInit()
 
 void UDPSend(char* buf, int buf_len)
 {
-    struct pbuf *p;
-    p = pbuf_alloc(PBUF_TRANSPORT, buf_len, PBUF_RAM);
-    if (p == NULL) return;
-    //memcpy(p->payload, buf, buf_len);
+	struct pbuf *p;
+	p = pbuf_alloc(PBUF_TRANSPORT, buf_len, PBUF_RAM);
+	if (p == NULL) return;
 	pbuf_take(p, buf, buf_len);
- 
-    //struct ip_addr server;
-        ip_addr_t server;
-    IP4_ADDR(&server, DEST_IP_ADDR0,DEST_IP_ADDR1, DEST_IP_ADDR2, DEST_IP_ADDR3); 
-    udp_sendto(UDPSock, p, &server, UDP_PORT);
+	ip_addr_t server;
+	IP4_ADDR(&server, DEST_IP_ADDR0,DEST_IP_ADDR1, DEST_IP_ADDR2, DEST_IP_ADDR3); 
+	udp_sendto(UDPSock, p, &server, UDP_PORT);
 	pbuf_free(p);
 }
 
@@ -102,9 +99,6 @@ void UDPSend(char* buf, int buf_len)
 
 void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port)
 {
-
-  /*increment message count */
-  //message_count++;
 	pbuf_copy_partial(p, rx_buf, 50, 0);
   
   /* Free receive pbuf */
